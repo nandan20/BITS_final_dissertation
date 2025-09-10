@@ -1,0 +1,97 @@
+{
+	"annotations": {
+		"list": [
+			{
+				"builtIn": 1,
+				"datasource": {
+					"type": "grafana",
+					"uid": "-- Grafana --"
+				},
+				"enable": true,
+				"hide": true,
+				"iconColor": "rgba(0, 211, 255, 1)",
+				"name": "Annotations & Alerts",
+				"target": {
+					"limit": 100,
+					"matchAny": false,
+					"tags": [],
+					"type": "dashboard"
+				},
+				"type": "dashboard"
+			}
+		]
+	},
+	"description": "OpenCost resource metrics for Minikube/local clusters.",
+	"editable": true,
+	"graphTooltip": 0,
+	"id": null,
+	"links": [],
+	"panels": [
+		{
+			"type": "row",
+			"title": "OpenCost Resource Overview",
+			"gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+			"id": 1,
+			"collapsed": false,
+			"panels": []
+		},
+		{
+			"type": "timeseries",
+			"title": "CPU Allocation (OpenCost Pods)",
+			"datasource": {"type": "prometheus", "uid": "prometheus"},
+			"targets": [
+				{"expr": "container_cpu_allocation{namespace=\"opencost\"}", "legendFormat": "{{container}}"}
+			],
+			"id": 2,
+			"gridPos": {"x": 0, "y": 1, "w": 12, "h": 8}
+		},
+		{
+			"type": "timeseries",
+			"title": "Memory Allocation (OpenCost Pods)",
+			"datasource": {"type": "prometheus", "uid": "prometheus"},
+			"targets": [
+				{"expr": "container_memory_allocation_bytes{namespace=\"opencost\"}", "legendFormat": "{{container}}"}
+			],
+			"id": 3,
+			"gridPos": {"x": 12, "y": 1, "w": 12, "h": 8}
+		},
+		{
+			"type": "timeseries",
+			"title": "GPU Allocation (OpenCost Pods)",
+			"datasource": {"type": "prometheus", "uid": "prometheus"},
+			"targets": [
+				{"expr": "container_gpu_allocation{namespace=\"opencost\"}", "legendFormat": "{{container}}"}
+			],
+			"id": 4,
+			"gridPos": {"x": 0, "y": 9, "w": 12, "h": 8}
+		},
+		{
+			"type": "table",
+			"title": "Pod Resource Requests (CPU/Memory)",
+			"datasource": {"type": "prometheus", "uid": "prometheus"},
+			"targets": [
+				{"expr": "kube_pod_container_resource_requests{namespace=\"opencost\"}", "legendFormat": "{{container}} {{resource}}"}
+			],
+			"id": 5,
+			"gridPos": {"x": 12, "y": 9, "w": 12, "h": 8}
+		},
+		{
+			"type": "table",
+			"title": "Deployment Match Labels",
+			"datasource": {"type": "prometheus", "uid": "prometheus"},
+			"targets": [
+				{"expr": "deployment_match_labels{namespace=\"opencost\"}", "legendFormat": "{{deployment}}"}
+			],
+			"id": 6,
+			"gridPos": {"x": 0, "y": 17, "w": 24, "h": 6}
+		}
+	],
+	"refresh": "30s",
+	"schemaVersion": 36,
+	"tags": ["opencost", "minikube", "resource"],
+	"timezone": "browser",
+	"title": "OpenCost (Minikube) Resource Metrics",
+	"uid": null,
+	"version": 1,
+	"time": {"from": "now-1h", "to": "now"}
+}

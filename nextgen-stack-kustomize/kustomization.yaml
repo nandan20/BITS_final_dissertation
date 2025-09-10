@@ -1,0 +1,12 @@
+resources:
+  - ../../trivy/securitysummary-crd.yaml
+  - ../../trivy/rbac-populator.yaml
+  - ../../trivy/servicemonitor.yaml
+  - ../../backup_restore/minio-deployment.yaml
+  - ../../backup_restore/velero-deployment.yaml
+  - ../../backup_restore/servicemonitor.yaml
+  - ../../cost-monitoring/opencost.yaml
+  - ../../cost-monitoring/opencost-servicemonitor.yaml
+  - ../../crd-exporter/k8s/deployment.yaml
+  - ../../crd-exporter/k8s/rbac.yaml
+  # Add more resources as needed

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: trivy-alerts
+  namespace: monitoring
+  labels:
+    release: kps
+spec:
+  groups:
+  - name: trivy.rules
+    rules:
+    - alert: HighCVEDetected
+      expr: trivy_vulnerability_severity_count{severity="HIGH"} > 0
+      for: 5s
+      labels:
+        severity: critical
+      annotations:
+        summary: "High CVE Detected"
+        description: "Trivy has found HIGH severity CVEs."

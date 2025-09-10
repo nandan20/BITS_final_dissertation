@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-prediction-exporter
+  namespace: monitoring
+  labels:
+    app: ai-prediction-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-prediction-exporter
+  template:
+    metadata:
+      labels:
+        app: ai-prediction-exporter
+    spec:
+      containers:
+        - name: exporter
+          image: ninandan/ai-prediction-exporter:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8001
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

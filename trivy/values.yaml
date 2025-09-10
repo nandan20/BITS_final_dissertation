@@ -1,0 +1,15 @@
+trivyOperator:
+  vulnerabilityReports:
+    enabled: true
+  configAuditReports:
+    enabled: true
+  rbacAssessmentReports:
+    enabled: true
+  clusterRbacAssessmentReports:
+    enabled: true
+  operator:
+    scanJobReportTTL: 24h
+    serviceAccount:
+      create: true
+    metrics:
+      bindAddress: ":8080"

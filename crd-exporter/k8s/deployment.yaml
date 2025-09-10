@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crd-exporter
+  namespace: monitoring
+  labels:
+    app: crd-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crd-exporter
+  template:
+    metadata:
+      labels:
+        app: crd-exporter
+    spec:
+      serviceAccountName: crd-exporter-sa
+      containers:
+        - name: exporter
+          image: nitishnandan/crd-exporter:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+              name: http
+          env:
+            - name: TARGET_NAMESPACE
+              value: trivy-system
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+      restartPolicy: Always
+
+---
+# crd-exporter-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: crd-exporter
+  namespace: monitoring
+  labels:
+    app: crd-exporter
+spec:
+  selector:
+    app: crd-exporter
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      name: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crd-exporter
+  namespace: monitoring
+  labels:
+    release: kps
+spec:
+  selector:
+    matchLabels:
+      app: crd-exporter
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+

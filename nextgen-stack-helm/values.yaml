@@ -1,0 +1,11 @@
+# Global values for the stack
+trivy:
+  enabled: true
+velero:
+  enabled: true
+opencost:
+  enabled: true
+aiPrediction:
+  enabled: true
+crdExporter:
+  enabled: true

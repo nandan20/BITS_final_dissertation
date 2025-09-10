@@ -1,0 +1,17 @@
+kubeStateMetrics:
+  enabled: true
+
+grafana:
+  enabled: true
+  adminPassword: prom-operator
+  defaultDashboardsEnabled: false
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+   
+
+    # FIX: Use label-based namespace selector
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        trivy-monitoring: "enabled"

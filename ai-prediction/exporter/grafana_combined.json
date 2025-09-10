@@ -1,0 +1,369 @@
+{
+  "title": "AI Backup Prediction & Velero Overview",
+  "uid": "ai-velero-combined-dashboard",
+  "schemaVersion": 30,
+  "version": 1,
+  "tags": [
+    "velero",
+    "backup",
+    "restore",
+    "ai",
+    "prediction"
+  ],
+  "style": "dark",
+  "timezone": "browser",
+  "editable": true,
+  "graphTooltip": 0,
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "type": "dashboard",
+        "name": "Annotations & Alerts",
+        "enabled": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Predicted Backup Failure Probability",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "ai_predicted_backup_failure_probability",
+          "legendFormat": "Failure Probability"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.5
+              },
+              {
+                "color": "red",
+                "value": 0.8
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Failure Probability Over Time",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "ai_predicted_backup_failure_probability",
+          "legendFormat": "Failure Probability"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 6,
+        "w": 24,
+        "h": 8
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Total Backups",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_backup_total)",
+          "legendFormat": "Total"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Failed Backups",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_backup_failure_total)",
+          "legendFormat": "Failed"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 14,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Total Restores",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_restore_total)",
+          "legendFormat": "Total"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Failed Restores",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_restore_failure_total)",
+          "legendFormat": "Failed"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 18,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Backup Duration (seconds)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "avg(velero_backup_duration_seconds)",
+          "legendFormat": "Duration"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 12,
+        "h": 6
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Restore Duration (seconds)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "avg(velero_restore_duration_seconds)",
+          "legendFormat": "Duration"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 12,
+        "h": 6
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Last Successful Backup",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "max(velero_backup_last_successful_timestamp) * 1000",
+          "legendFormat": "Last Success"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 34,
+        "w": 6,
+        "h": 4
+      },
+      "unit": "dateTime"
+    },
+    {
+      "type": "stat",
+      "title": "Last Successful Restore",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "max(velero_restore_last_successful_timestamp) * 1000",
+          "legendFormat": "Last Success"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 34,
+        "w": 6,
+        "h": 4
+      },
+      "unit": "dateTime"
+    },
+    {
+      "type": "stat",
+      "title": "Backup Attempts",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_backup_attempt_total)",
+          "legendFormat": "Attempts"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 38,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Restore Attempts",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_restore_attempt_total)",
+          "legendFormat": "Attempts"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 38,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Partial Backup Failures",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_backup_partial_failure_total)",
+          "legendFormat": "Partial Failures"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 42,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Partial Restore Failures",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_restore_partial_failure_total)",
+          "legendFormat": "Partial Failures"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 42,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Backup Validation Errors",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_backup_validation_errors_total)",
+          "legendFormat": "Validation Errors"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 46,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Restore Validation Errors",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(velero_restore_validation_errors_total)",
+          "legendFormat": "Validation Errors"
+        }
+      ],
+      "gridPos": {
+        "x": 6,
+        "y": 46,
+        "w": 6,
+        "h": 4
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Backups Over Time",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "increase(velero_backup_total[1d])",
+          "legendFormat": "Backups"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 50,
+        "w": 12,
+        "h": 6
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Restores Over Time",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "increase(velero_restore_total[1d])",
+          "legendFormat": "Restores"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 56,
+        "w": 12,
+        "h": 6
+      }
+    }
+  ]
+}

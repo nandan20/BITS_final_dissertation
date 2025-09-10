@@ -1,0 +1,5 @@
+flask
+scikit-learn
+pandas
+prometheus-api-client
+joblib

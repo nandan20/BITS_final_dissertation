@@ -1,0 +1,33 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: securitysummaryreports.secscan.bits.io
+spec:
+  group: secscan.bits.io
+  names:
+    plural: securitysummaryreports
+    singular: securitysummaryreport
+    kind: SecuritySummaryReport
+    shortNames:
+      - ssr
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                namespace:
+                  type: string
+                highSeverityCount:
+                  type: integer
+                criticalSeverityCount:
+                  type: integer
+                lastUpdated:
+                  type: string
+                  format: date-time

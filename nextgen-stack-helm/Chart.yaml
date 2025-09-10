@@ -1,0 +1,4 @@
+apiVersion: v2
+name: nextgen-stack
+version: 0.1.0
+description: A Helm chart for deploying the full NextGen Kubernetes Platform stack

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: populator-sa
+  namespace: trivy-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: populator-role
+  namespace: trivy-system
+rules:
+  - apiGroups: ["aquasecurity.github.io"]
+    resources: ["vulnerabilityreports"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["secscan.bits.io"]
+    resources: ["securitysummaryreports"]
+    verbs: ["get", "list", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: populator-rolebinding
+  namespace: trivy-system
+subjects:
+  - kind: ServiceAccount
+    name: populator-sa
+    namespace: trivy-system
+roleRef:
+  kind: Role
+  name: populator-role
+  apiGroup: rbac.authorization.k8s.io
